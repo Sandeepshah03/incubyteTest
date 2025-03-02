@@ -12,21 +12,26 @@ public class SignUpPage {
 		WebDriver driver = new ChromeDriver();
 		driver.get("https://magento.softwaretestingboard.com/customer/account/create/");
 		Thread.sleep(2000);
-		driver.findElement(By.id("firstname")).sendKeys("Account");
+		driver.findElement(By.id("firstname")).sendKeys("test");
+		Thread.sleep(2000);
+		Thread.sleep(2000);
+		driver.findElement(By.id("lastname")).sendKeys("account");
 		Thread.sleep(2000);
 		driver.findElement(By.id("email_address")).sendKeys("test.account123@gmail.com");
 		Thread.sleep(2000);
-		driver.findElement(By.id("password")).sendKeys("test123");
+		driver.findElement(By.id("password")).sendKeys("test@123");
 		Thread.sleep(2000);
-		driver.findElement(By.id("password_confirmation")).sendKeys("test123");
+		driver.findElement(By.id("password-confirmation")).sendKeys("test@123");
 		
 		driver.findElement(By.cssSelector("button[title='Create an Account']")).click();
 		
 		System.out.println(driver.getCurrentUrl());
 		System.out.println(driver.getTitle());
-		
+		driver.close();
+	
 	
 		
 	}
 
 }
+

@@ -15,11 +15,16 @@ public class SignInPage {
 				"https://magento.softwaretestingboard.com/customer/account/login/referer/aHR0cHM6Ly9tYWdlbnRvLnNvZnR3YXJldGVzdGluZ2JvYXJkLmNvbS9jdXN0b21lci9hY2NvdW50L2xvZ291dFN1Y2Nlc3Mv/");
  
 		System.out.println(driver.getTitle());
+		Thread.sleep(2000);  // think time added
+		driver.findElement(By.id("email")).sendKeys("test.account123@gmail.com");
 		Thread.sleep(2000);
-		driver.findElement(By.id("email")).sendKeys("sandeep.shah538@gmail.com");
-		Thread.sleep(2000);
-		driver.findElement(By.id("pass")).sendKeys("Qwerty123");
+		driver.findElement(By.id("pass")).sendKeys("test@123");
 		driver.findElement(By.id("send2")).click();
+		
+		System.out.println(driver.getCurrentUrl());
+		System.out.println(driver.getTitle());
+	
+		driver.close();
 		}
 
 }
