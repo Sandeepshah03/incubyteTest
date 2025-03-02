@@ -3,28 +3,54 @@ package main.java;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Properties;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import java.time.Duration;
 
 public class SignInPage {
 
-	public static void main(String[] args) throws InterruptedException {
-		// TODO Auto-generated method stub
+    public static void main(String[] args) throws IOException {
+        // Load data from properties file
+        Properties prop = new Properties();
+        FileInputStream fis = new FileInputStream("C:\\Users\\Hp\\eclipse-workspace\\Incubyte\\src\\main\\java\\config.properties");
+        prop.load(fis);
 
-		System.setProperty("webdriver.chrome.driver", "D:\\\\chromedriver-win64\\\\chromedriver.exe");
-		WebDriver driver = new ChromeDriver();
-		driver.get(
-				"https://magento.softwaretestingboard.com/customer/account/login/referer/aHR0cHM6Ly9tYWdlbnRvLnNvZnR3YXJldGVzdGluZ2JvYXJkLmNvbS9jdXN0b21lci9hY2NvdW50L2xvZ291dFN1Y2Nlc3Mv/");
- 
-		System.out.println(driver.getTitle());
-		Thread.sleep(2000);  // think time added
-		driver.findElement(By.id("email")).sendKeys("test.account123@gmail.com");
-		Thread.sleep(2000);
-		driver.findElement(By.id("pass")).sendKeys("test@123");
-		driver.findElement(By.id("send2")).click();
-		
-		System.out.println(driver.getCurrentUrl());
-		System.out.println(driver.getTitle());
-	
-		driver.close();
-		}
+        // Get the sign-in URL and credentials from the properties file
+        String signInUrl = prop.getProperty("signInUrl");
+        String email = prop.getProperty("signInEmail");
+        String password = prop.getProperty("signInPassword");
 
+        // Set the path for ChromeDriver
+        System.setProperty("webdriver.chrome.driver", "D:\\\\chromedriver-win64\\\\chromedriver.exe");
+        WebDriver driver = new ChromeDriver();
+
+        // Open the sign-in page
+        driver.get(signInUrl);
+
+        // Initialize WebDriverWait
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+
+        // Wait for email input field to be visible and enter value
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("email")));
+        driver.findElement(By.id("email")).sendKeys(email);
+
+        // Enter password
+        driver.findElement(By.id("pass")).sendKeys(password);
+
+        // Click on the sign-in button
+        driver.findElement(By.id("send2")).click();
+
+        // Wait for the page to load after login
+        wait.until(ExpectedConditions.urlContains("dashboard"));
+
+        // Print the current URL and page title after the sign-in attempt
+        System.out.println(driver.getCurrentUrl());
+        System.out.println(driver.getTitle());
+
+        // Close the browser
+        driver.quit();
+    }
 }
